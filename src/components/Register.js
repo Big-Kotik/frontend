@@ -1,6 +1,7 @@
 import '../css/LoginOrRegister.css';
 import React, {useState} from 'react';
 import authService from "../service/authService";
+import {User} from "../classes/User";
 
 const Register = ({setAction, setUser}) => {
     const [login, setLogin] = useState("");
@@ -22,12 +23,7 @@ const Register = ({setAction, setUser}) => {
             setLogin("");
             setPassword("");
             setPasswordConfirmation("");
-            setUser({
-                socketId: null,
-                id: res.id,
-                login: res.login,
-                creationTime: res.creationTime
-            })
+            setUser(new User(null, res.id, res.login, res.creationTime))
         } catch (e) {
             //Ignored for now
         }
