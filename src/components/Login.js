@@ -1,20 +1,48 @@
 import '../css/LoginOrRegister.css';
-import React from 'react';
+import React, {useState} from 'react';
+import authService from "../service/authService";
 
-const Login = ({setAction}) => {
+const Login = ({setAction, setUser}) => {
+    const [login, setLogin] = useState("");
+    const [password, setPassword] = useState("");
+
+    const handleLogin = async (event) => {
+        event.preventDefault()
+        try {
+            console.log({
+                login,
+                password
+            })
+            const res = await authService.register({
+                login,
+                password
+            });
+            setLogin("");
+            setPassword("");
+            setUser({
+                socketId: null,
+                id: res.id,
+                login: res.login,
+                creationTime: res.creationTime
+            })
+        } catch (e) {
+            //Ignored for now
+        }
+    }
     return (
         <div className="text-center form-signin-container">
             <main className="form-signin">
-                <form>
-                   {/* <img className="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"/>*/}
+                <form onSubmit={handleLogin}>
                     <h1 className="h3 mb-3 fw-normal">Sign in</h1>
 
                     <div className="form-floating">
-                        <input type="text" className="form-control" id="login" placeholder="name@example.com"/>
+                        <input type="text" className="form-control" id="login" value={login}
+                               onChange={({target}) => setLogin(target.value)}/>
                         <label htmlFor="login">Login</label>
                     </div>
                     <div className="form-floating">
-                        <input type="password" className="form-control" id="password" placeholder="Password"/>
+                        <input type="password" className="form-control" id="password" value={password}
+                               onChange={({target}) => setPassword(target.value)}/>
                         <label htmlFor="password">Password</label>
                     </div>
                     <p>
@@ -24,7 +52,6 @@ const Login = ({setAction}) => {
                         }}>Create new account</a>
                     </p>
                     <button className="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
-                    {/*<p className="mt-5 mb-3 text-muted">&copy; 2017–2021</p>*/}
                 </form>
             </main>
         </div>

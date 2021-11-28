@@ -1,25 +1,56 @@
 import '../css/LoginOrRegister.css';
-import React from 'react';
+import React, {useState} from 'react';
+import authService from "../service/authService";
 
-const Register = ({setAction}) => {
+const Register = ({setAction, setUser}) => {
+    const [login, setLogin] = useState("");
+    const [password, setPassword] = useState("");
+    const [passwordConfirmation, setPasswordConfirmation] = useState("");
+    const handleRegister = async (event) => {
+        event.preventDefault()
+        try {
+            console.log({
+                login,
+                password,
+                passwordConfirmation
+            })
+            const res = await authService.register({
+                login,
+                password,
+                passwordConfirmation
+            });
+            setLogin("");
+            setPassword("");
+            setPasswordConfirmation("");
+            setUser({
+                socketId: null,
+                id: res.id,
+                login: res.login,
+                creationTime: res.creationTime
+            })
+        } catch (e) {
+            //Ignored for now
+        }
+    }
     return (
         <div className="text-center form-signin-container">
             <main className="form-signin">
-                <form>
-                    {/*<img className="mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57"/>*/}
+                <form onSubmit={handleRegister}>
                     <h1 className="h3 mb-3 fw-normal">Register</h1>
-
                     <div className="form-floating">
-                        <input type="text" className="form-control" id="login" placeholder="name@example.com"/>
+                        <input type="text" className="form-control" id="login" value={login}
+                               onChange={({target}) => setLogin(target.value)}/>
                         <label htmlFor="login">Login</label>
                     </div>
                     <div className="form-floating">
-                        <input type="password" className="form-control" id="password" placeholder="Password"/>
+                        <input type="password" className="form-control" id="password" value={password}
+                               onChange={({target}) => setPassword(target.value)}/>
                         <label htmlFor="password">Password</label>
                     </div>
                     <div className="form-floating">
                         <input type="password" className="form-control" id="passwordConfirmation"
-                               placeholder="Password"/>
+                               value={passwordConfirmation}
+                               onChange={({target}) => setPasswordConfirmation(target.value)}/>
                         <label htmlFor="passwordConfirmation">Password confirmation</label>
                     </div>
                     <p>
@@ -29,7 +60,6 @@ const Register = ({setAction}) => {
                         }}>Enter into an existing account</a>
                     </p>
                     <button className="w-100 btn btn-lg btn-primary" type="submit">Register</button>
-                    {/*<p className="mt-5 mb-3 text-muted">&copy; 2017–2021</p>*/}
                 </form>
             </main>
         </div>
