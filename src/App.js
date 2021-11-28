@@ -1,6 +1,7 @@
 import './css/App.css'
 import LoginOrRegister from "./components/LoginOrRegister";
 import {useState} from "react";
+import Messages from "./components/Messages";
 
 const App = () => {
     const [user, setUser] = useState(null)
@@ -13,7 +14,7 @@ const App = () => {
     }
     return (
         <div className="app">
-
+            <Messages user={user} setUser={setUser}/>
         </div>
     );
 }
