@@ -17,4 +17,5 @@ const saveSockedId = async socketData => {
     return response.data;
 }
 
+
 export default {register, login, saveSockedId}

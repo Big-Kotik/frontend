@@ -33,12 +33,12 @@ const Login = ({setAction, setUser}) => {
 
                     <div className="form-floating">
                         <input type="text" className="form-control" id="login" value={login}
-                               onChange={({target}) => setLogin(target.value)}/>
+                               onChange={({target}) => setLogin(target.value)} placeholder="Login"/>
                         <label htmlFor="login">Login</label>
                     </div>
                     <div className="form-floating">
                         <input type="password" className="form-control" id="password" value={password}
-                               onChange={({target}) => setPassword(target.value)}/>
+                               onChange={({target}) => setPassword(target.value)} placeholder="Password"/>
                         <label htmlFor="password">Password</label>
                     </div>
                     <p>
